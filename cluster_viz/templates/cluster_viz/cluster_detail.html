@@ -1,0 +1,24 @@
+{% extends 'cluster_viz/base.html' %}
+{% block content %}
+    <div class="palabra">
+        <h1><b>{{ word }}</b></h1>
+    </div>
+    <div class="row">
+    	<div class="column">
+	        <h3><b>TOPIC 1</b>  (  {{ words0 }}  )</h3>
+	        <br />
+	        {% for title in titles0 %}
+	            <h4> {{ title }} </h4>
+	            <hr>
+	        {% endfor %}
+        </div>
+    	<div class="column">
+	        <h3><b>TOPIC 2</b>  (  {{ words1 }}  )</h3>
+	        <br />
+	        {% for title in titles1 %}
+	            <h4> {{ title }} </h4>
+	            <hr>
+	        {% endfor %}
+    	</div>
+    </div>
+{% endblock %}

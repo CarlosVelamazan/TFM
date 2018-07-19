@@ -1,0 +1,9 @@
+{% extends 'cluster_viz/base.html' %}
+
+{% block content %}
+    <h1>New Search</h1>
+    <form action="/cluster/detail/" method="GET" class="post-form">
+    	<input type="text" name="q">
+        <button type="submit" class="save btn btn-default">Search</button>
+    </form>
+{% endblock %}	
