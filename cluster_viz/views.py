@@ -30,8 +30,15 @@ def cluster_detail(request):
     words1 = ', '.join(df_final['1_words'])
     titles0 = df_final['0_titles']
     titles1 = df_final['1_titles']
+    docs0 = df_final['0_docs']
+    docs1 = df_final['1_docs']
+    totaldocs = docs0+docs1
+    time = df_final['time']
 
-    return render(request, 'cluster_viz/cluster_detail.html', {'word': word, 'words0':words0, 'words1':words1, 'titles0': titles0, 'titles1':titles1})
+    return render(request, 'cluster_viz/cluster_detail.html', 
+	    				  {'word': word, 'words0':words0, 'words1':words1,
+	    				   'titles0': titles0, 'titles1':titles1,
+	    				   'docs0': docs0, 'docs1':docs1, 'time':time, 'totaldocs':totaldocs})
 
 def search(request):
     form = SearchForm(request.GET)

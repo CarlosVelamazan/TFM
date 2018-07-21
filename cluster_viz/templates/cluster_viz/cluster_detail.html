@@ -2,10 +2,12 @@
 {% block content %}
     <div class="palabra">
         <h1><b>{{ word }}</b></h1>
+        <h5>{{ totaldocs }} documentos recupetados en {{ time }} segundos</h5>
     </div>
     <div class="row">
     	<div class="column">
-	        <h3><b>TOPIC 1</b>  (  {{ words0 }}  )</h3>
+	        <h3><b>GRUPO 1</b>  (  {{ words0 }}  )</h3>
+	        <h4><b>Nº de Documentos: </b>  (  {{ docs0 }}  )</h4>
 	        <br />
 	        {% for title in titles0 %}
 	            <h4> {{ title }} </h4>
@@ -13,7 +15,8 @@
 	        {% endfor %}
         </div>
     	<div class="column">
-	        <h3><b>TOPIC 2</b>  (  {{ words1 }}  )</h3>
+	        <h3><b>GRUPO 2</b>  (  {{ words1 }}  )</h3>
+	        <h4><b>Nº de Documentos: </b>  (  {{ docs1 }}  )</h4>
 	        <br />
 	        {% for title in titles1 %}
 	            <h4> {{ title }} </h4>

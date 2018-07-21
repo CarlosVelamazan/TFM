@@ -50,7 +50,7 @@ h1 {
     color: #000000;
 }
 
-.palabra h1{
+.palabra h1, h5{
     /*position: absolu te;*/
     left: 50%;
     text-align: center;

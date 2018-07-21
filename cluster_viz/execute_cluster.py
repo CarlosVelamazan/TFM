@@ -38,26 +38,21 @@ class Cluster():
         self.title_list = title_list
         self.text_list = text_list
         
-    def get_data(self):
-        
+    def get_data(self):        
         clean_texts = []
         #Se importan los dos datasets
 #        titles = open(path+titles_name).read().split('\nNUEVOTEXTO\n')
-#        texts = open(path+texts_name).read().split('\nNUEVOTEXTO\n')
-        
+#        texts = open(path+texts_name).read().split('\nNUEVOTEXTO\n')        
         titles = self.title_list
-        texts = self.text_list
-        
+        texts = self.text_list        
         #Se limitan a 100 filas
         titles = titles[:100]      
-        texts = texts[:100]        
-        
+        texts = texts[:100]       
         #Se limpia el texto eliminando el formato html y convirtiendolo a unicode
         for text in texts:
             text = BeautifulSoup(text, 'html.parser').getText()
             clean_texts.append(text)        
-        texts = clean_texts
-        
+        texts = clean_texts        
         ranks = []
         for i in range(0,len(clean_texts)):
             ranks.append(i)
@@ -81,8 +76,9 @@ class Cluster():
 
 
     def tokenize_only(self, text):
-        # Tokenizamos primero las frases y luego las palabras
-        tokens = [word.lower() for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
+        # Tokenizamos los términos de los textos
+        tokens = [word.lower() for sent in nltk.sent_tokenize(text) \
+                                    for word in nltk.word_tokenize(sent)]
         filtered_tokens = []
         # Eliminamos numeros, puntuacion
         for token in tokens:
@@ -102,7 +98,8 @@ class Cluster():
             allwords_tokenized = self.tokenize_only(i)
             totalvocab_tokenized.extend(allwords_tokenized)
         
-        #Creamos un dataframe que actua como diccionario para obtener el token usando la palabra "stematizada"
+        #Creamos un dataframe que actua como diccionario para obtener 
+        #el token usando la palabra "stematizada"
         vocab_frame = pd.DataFrame({'words': totalvocab_tokenized}, index = totalvocab_stemmed)
     
         return vocab_frame
@@ -112,7 +109,8 @@ class Cluster():
         stopwords = nltk.corpus.stopwords.words('english')
         tfidf_vectorizer = TfidfVectorizer(max_df=0.8, max_features=200000,
                                  min_df=0.1, stop_words='english',
-                                 use_idf=True, tokenizer=self.tokenize_and_stem, ngram_range=(1,3))
+                                 use_idf=True, tokenizer=self.tokenize_and_stem, 
+                                 ngram_range=(1,3))
         tfidf_matrix = tfidf_vectorizer.fit_transform(texts)
         
         #guardamos los terminos de la matriz y calculamos las distancias
@@ -142,7 +140,8 @@ class Cluster():
     def create_dataframe(self, titles, ranks, texts, clusters):
         #Creamos un dataframe a partir de los datos obtenidos anteriormente
         docs = { 'title': titles, 'rank': ranks, 'text': texts, 'cluster': clusters}
-        frame = pd.DataFrame(docs, index = [clusters] , columns = ['rank', 'title', 'cluster'])
+        frame = pd.DataFrame(docs, index = [clusters] , 
+                                   columns = ['rank', 'title', 'cluster'])
         
         return frame
     
@@ -157,12 +156,14 @@ class Cluster():
             if i == 0:
                 #Add words and titles of the clusters
                 for ind in order_centroids[i, :5]:
-                    cluster0_words.append(vocab_frame.loc[terms[ind].split(' ')].values.tolist()[0][0])        
+                    cluster0_words.append( \
+                            vocab_frame.loc[terms[ind].split(' ')].values.tolist()[0][0])        
                 for title in frame.loc[i]['title'].values.tolist()[:10]:
                     cluster0_titles.append(title)    
             elif i == 1:
                 for ind in order_centroids[i, :5]:
-                    cluster1_words.append(vocab_frame.loc[terms[ind].split(' ')].values.tolist()[0][0])
+                    cluster1_words.append( \
+                            vocab_frame.loc[terms[ind].split(' ')].values.tolist()[0][0])
                 for title in frame.loc[i]['title'].values.tolist()[:10]:
                     cluster1_titles.append(title)
         
@@ -291,7 +292,7 @@ class Cluster():
                        '1_titles':cluster1_titles,
                        '0_docs':num_docs_0,
                        '1_docs':num_docs_1,
-                       'time':proc_time
+                       'time': round(proc_time, 2)
                        }
     
         return final_frame
